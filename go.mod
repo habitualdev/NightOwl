@@ -7,6 +7,7 @@ require (
 	github.com/google/gopacket v1.1.19
 	github.com/hillu/go-yara/v4 v4.1.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/zcalusic/sysinfo v0.0.0-20210905121133-6fa2f969a900
 )
 
 require (

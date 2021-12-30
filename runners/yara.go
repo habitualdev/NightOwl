@@ -2,12 +2,23 @@ package runners
 
 import (
 	"bytes"
-	"github.com/hillu/go-yara/v4"
+	"errors"
 	"fmt"
+	"github.com/go-git/go-git/v5"
+	"github.com/hillu/go-yara/v4"
 	"log"
 	"os"
 	"strings"
 )
+
+func GetYaraRules(){
+	if _, err := os.Stat("./rules/index.yar"); errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Rules directory not found, cloning https://github.com/Yara-Rules/rules")
+		os.Mkdir("rules", 0755)
+		git.PlainClone("rules", false, &git.CloneOptions{URL: "https://github.com/Yara-Rules/rules", Progress: os.Stdout})
+	}
+}
+
 
 func printMatches(item string, m []yara.MatchRule, err error) string{
 	if err != nil {
@@ -51,7 +62,7 @@ func runYara(fileData []byte, fileName string) string{
 
 }
 
-func ScanPcap(keyName string, data []byte){
+func YaraScanPcap(keyName string, data []byte){
 	matches := runYara(data, keyName)
 	nameSplit := strings.Split(keyName,"-")
 
